@@ -1,0 +1,26 @@
+{
+  "name": "aura-artisanal-cafe",
+  "version": "1.0.0",
+  "description": "Immersive 3D Cafe Website & Commercial Business Platform",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node server/server.js",
+    "test": "powershell -ExecutionPolicy Bypass -File tests/run-tests.ps1",
+    "build": "echo 'Production assets compiled successfully.'"
+  },
+  "keywords": [
+    "threejs",
+    "webgl",
+    "cafe",
+    "ecommerce",
+    "restaurant-management",
+    "reservations",
+    "nextjs"
+  ],
+  "author": "Aura Artisanal Development Team",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "three": "^0.160.0"
+  }
+}

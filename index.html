@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Aura Artisanal Cafe & Roastery — Immersive 3D specialty coffee experience, hand-crafted brews, artisanal bakery, online ordering, and table reservations.">
+  <title>Aura Artisanal Cafe & Roastery — Specialty Coffee & Dining Flagship</title>
+
+  <!-- Google Fonts: Playfair Display & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Three.js CDN for WebGL 3D Rendering -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+
+  <!-- ==============================================================================
+       PUBLIC CUSTOMER STOREFRONT
+       ============================================================================== -->
+  <div id="public-website">
+
+    <!-- Sticky Navigation Header -->
+    <header class="site-header">
+      <div class="container nav-container">
+        <a href="#hero" class="brand-logo" aria-label="Aura Artisanal Cafe Home">
+          <div class="brand-icon">A</div>
+          <div>
+            <div class="brand-name">AURA</div>
+            <div class="brand-tagline">Artisanal Roastery</div>
+          </div>
+        </a>
+
+        <nav aria-label="Main Site Navigation">
+          <ul class="nav-links">
+            <li><a href="#hero" class="nav-link active">Home</a></li>
+            <li><a href="#atmosphere" class="nav-link">Atmosphere</a></li>
+            <li><a href="#story" class="nav-link">Craft Story</a></li>
+            <li><a href="#menu" class="nav-link">Artisanal Menu</a></li>
+            <li><a href="#reserve" class="nav-link">Table Reservation</a></li>
+            <li><a href="#visit" class="nav-link">Visit Us</a></li>
+          </ul>
+        </nav>
+
+        <div class="nav-actions">
+          <button class="cart-btn" onclick="window.auraApp.openCartDrawer()" aria-label="View shopping bag">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+            <span style="font-size: 0.88rem; font-weight: 600;">Bag</span>
+            <span class="cart-count">0</span>
+          </button>
+
+          <button class="btn btn-secondary btn-sm" onclick="window.auraApp.toggleAdminView()" title="Open Business Operations Portal">
+            Admin Portal
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main id="main-content">
+
+      <!-- Section 1: Hero & 3D WebGL Canvas -->
+      <section id="hero" class="hero-section">
+        <div class="container hero-grid">
+          <div class="hero-content">
+            <div class="hero-eyebrow">
+              <span class="canvas-pulse"></span>
+              Specialty Coffee Flagship &bull; Bengaluru
+            </div>
+            <h1 class="hero-title">
+              Sourced Ethically. <span>Brewed with</span> Intention.
+            </h1>
+            <p class="hero-desc">
+              Step into an unhurried digital sanctuary. Explore single-estate micro-lots, velvety flat whites with silk micro-foam, and French laminated brioche freshly baked at dawn.
+            </p>
+            <div class="hero-actions">
+              <a href="#menu" class="btn btn-primary">Order for Pickup &amp; Dine-in</a>
+              <a href="#reserve" class="btn btn-secondary">Reserve a Table</a>
+              <a href="#atmosphere" class="btn btn-secondary" style="border-style: dashed;">Virtual Cafe Tour &darr;</a>
+            </div>
+            <div class="hero-stats">
+              <div class="stat-item">
+                <strong>92&deg;C</strong>
+                <span>Precision Extraction</span>
+              </div>
+              <div class="stat-item">
+                <strong>18 hrs</strong>
+                <span>Slow Drip Infusion</span>
+              </div>
+              <div class="stat-item">
+                <strong>100%</strong>
+                <span>Direct Trade Farms</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive 3D WebGL Coffee Cup Canvas -->
+          <div class="hero-canvas-wrapper" id="hero-canvas-container">
+            <div class="canvas-badge">
+              <span class="canvas-pulse"></span>
+              Real-Time 3D WebGL &bull; Interactive
+            </div>
+            <canvas id="hero-canvas" aria-label="Interactive 3D model of our signature ceramic coffee cup with rising steam"></canvas>
+            <div class="canvas-controls-hint">Drag to inspect &bull; Touch enabled</div>
+
+            <!-- Graceful Fallback if WebGL is unavailable or reduced motion is active -->
+            <div class="canvas-fallback" id="hero-fallback">
+              <h3 style="color: var(--color-amber); margin-bottom: 8px;">Aura Signature Ceramic Cup</h3>
+              <p style="color: #d8cebf; max-width: 320px;">Textured ceramic cup with ristretto double shot and micro-textured latte art froth.</p>
+              <div style="margin-top: 20px;">
+                <span class="badge badge-amber">Single-Origin Roast</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Virtual 3D Atmosphere Tour -->
+      <section id="atmosphere" class="tour-section">
+        <div class="container">
+          <div class="tour-header">
+            <span class="badge badge-sage" style="margin-bottom: 12px;">Spatial Experience</span>
+            <h2>Step Inside Aura</h2>
+            <p>Immerse yourself in our Scandinavian-Japanese minimalist roastery. Select a vantage point below to journey through our physical space.</p>
+          </div>
+
+          <div class="tour-wrapper" id="tour-canvas-container">
+            <canvas id="tour-canvas" aria-label="Virtual 3D space tour of Aura Cafe"></canvas>
+            <div class="tour-nav-overlay">
+              <button class="tour-btn active" data-wp="bar" onclick="window.switchTourWaypoint('bar')">Espresso Bar</button>
+              <button class="tour-btn" data-wp="roastery" onclick="window.switchTourWaypoint('roastery')">Roastery Corner</button>
+              <button class="tour-btn" data-wp="lounge" onclick="window.switchTourWaypoint('lounge')">Courtyard Lounge</button>
+              <button class="tour-btn" data-wp="pastry" onclick="window.switchTourWaypoint('pastry')">Pastry Vitrine</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Craft Story & Philosophy -->
+      <section id="story" style="padding: 80px 0; background-color: var(--color-paper);">
+        <div class="container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;">
+          <div>
+            <span class="badge badge-amber" style="margin-bottom: 16px;">Our Philosophy</span>
+            <h2 style="font-size: 2.4rem; margin-bottom: 18px;">From High-Elevation Farms Directly into Your Cup</h2>
+            <p style="margin-bottom: 16px; line-height: 1.8;">
+              At Aura, we believe coffee is an architectural discipline. We collaborate with independent family-owned estates across Chikmagalur, Coorg, and Yirgacheffe, paying 45% above Fairtrade minimums to support regenerative agriculture.
+            </p>
+            <p style="line-height: 1.8; margin-bottom: 24px;">
+              Every batch is micro-roasted in small 5kg drums to highlight natural floral acidity, complex stone-fruit undertones, and toasted honeycomb sweetness.
+            </p>
+            <div style="display: flex; gap: 20px;">
+              <div style="border-left: 3px solid var(--color-terracotta); padding-left: 14px;">
+                <h4 style="font-size: 1.1rem; color: var(--color-espresso);">Freshness Guarantee</h4>
+                <p style="font-size: 0.85rem;">Beans roasted within 7 days of service.</p>
+              </div>
+              <div style="border-left: 3px solid var(--color-sage); padding-left: 14px;">
+                <h4 style="font-size: 1.1rem; color: var(--color-espresso);">Plant-Based First</h4>
+                <p style="font-size: 0.85rem;">Organic Oatly and artisanal almond milks.</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: var(--color-panel); border: 1px solid var(--color-line); border-radius: var(--radius-lg); padding: 36px; box-shadow: var(--shadow-sm);">
+            <h3 style="font-size: 1.4rem; margin-bottom: 20px; color: var(--color-espresso);">Today's Roaster Highlights</h3>
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--color-line); padding-bottom: 12px;">
+                <div>
+                  <strong>Ethiopian Yirgacheffe G1</strong>
+                  <div style="font-size: 0.82rem; color: var(--color-muted);">Washed &bull; Elevation 2,100 MASL</div>
+                </div>
+                <span class="badge badge-amber">Filter Roast</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--color-line); padding-bottom: 12px;">
+                <div>
+                  <strong>Monsooned Malabar Reserve</strong>
+                  <div style="font-size: 0.82rem; color: var(--color-muted);">Sun-dried &bull; Low Acidity, Heavy Body</div>
+                </div>
+                <span class="badge badge-sage">Espresso Roast</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <div>
+                  <strong>Kyoto Slow Cold Drip</strong>
+                  <div style="font-size: 0.82rem; color: var(--color-muted);">18-hour cold percolation</div>
+                </div>
+                <span class="badge badge-amber">Limited 20 Bottles</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Live Data-Driven Menu -->
+      <section id="menu" class="menu-section">
+        <div class="container">
+          <div class="menu-header">
+            <div>
+              <span class="badge badge-amber" style="margin-bottom: 10px;">Seasonal Selection</span>
+              <h2 style="font-size: 2.6rem;">Artisanal Offerings</h2>
+              <p>Hand-crafted beverages, slow brews, and daily morning viennoiserie.</p>
+            </div>
+
+            <!-- Instant Search Input -->
+            <div class="menu-search-box">
+              <svg class="menu-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" id="menu-search" class="menu-search-input" placeholder="Search flat white, brioche, matcha..." aria-label="Search Menu Offerings">
+            </div>
+          </div>
+
+          <!-- Dynamic Category Tabs -->
+          <div class="category-tabs" id="category-pills"></div>
+
+          <!-- Dynamic Menu Grid -->
+          <div class="menu-grid" id="menu-grid"></div>
+        </div>
+      </section>
+
+      <!-- Section 5: Concurrency-Protected Table Reservations -->
+      <section id="reserve" class="reservations-section">
+        <div class="container">
+          <div class="res-card" id="reservation-form-container">
+            <div style="text-align: center; margin-bottom: 30px;">
+              <span class="badge badge-sage" style="margin-bottom: 8px;">Hospitality</span>
+              <h2 style="font-size: 2.2rem; margin-bottom: 8px;">Table Reservations</h2>
+              <p>Join us for morning pour-overs, relaxed afternoon meetings, or evening conversations.</p>
+            </div>
+
+            <form id="reservation-form">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="res-name">Full Name *</label>
+                  <input type="text" id="res-name" class="form-input" placeholder="e.g. Vikram Sethi" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="res-phone">Phone Number *</label>
+                  <input type="tel" id="res-phone" class="form-input" placeholder="+91 98450 00000" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="res-email">Email Address *</label>
+                  <input type="email" id="res-email" class="form-input" placeholder="vikram@example.com" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="res-party">Number of Guests *</label>
+                  <select id="res-party" class="form-select" required>
+                    <option value="1">1 Guest (Bar Seat / Solo)</option>
+                    <option value="2" selected>2 Guests</option>
+                    <option value="3">3 Guests</option>
+                    <option value="4">4 Guests</option>
+                    <option value="5">5 Guests</option>
+                    <option value="6">6 Guests</option>
+                    <option value="8">8 Guests (Large Table)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="res-date">Date of Visit *</label>
+                  <input type="date" id="res-date" class="form-input" value="2026-11-23" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="res-time">Preferred Time Slot *</label>
+                  <select id="res-time" class="form-select" required>
+                    <option value="09:00 AM">09:00 AM (Morning Brew)</option>
+                    <option value="10:30 AM">10:30 AM</option>
+                    <option value="12:00 PM">12:00 PM (Brunch Window)</option>
+                    <option value="02:30 PM">02:30 PM</option>
+                    <option value="04:30 PM" selected>04:30 PM (Afternoon Coffee)</option>
+                    <option value="06:30 PM">06:30 PM</option>
+                    <option value="08:00 PM">08:00 PM (Evening Lounge)</option>
+                  </select>
+                </div>
+                <div class="form-group full">
+                  <label class="form-label" for="res-area">Seating Area Preference</label>
+                  <select id="res-area" class="form-select">
+                    <option value="Courtyard Lounge">Courtyard Lounge (Natural daylight & greenery)</option>
+                    <option value="Espresso Bar High Seats">Espresso Bar High Seats (Watch the baristas pull shots)</option>
+                    <option value="Window Roastery Nook">Window Roastery Nook (Cozy work & reading corner)</option>
+                    <option value="Outdoor Veranda">Outdoor Veranda (Pet friendly)</option>
+                  </select>
+                </div>
+                <div class="form-group full">
+                  <label class="form-label" for="res-notes">Special Notes &amp; Dietary Inquiries</label>
+                  <textarea id="res-notes" class="form-textarea" rows="2" placeholder="Anniversary, wheelchair access, high chair request..."></textarea>
+                </div>
+              </div>
+
+              <div style="text-align: center;">
+                <button type="submit" class="btn btn-primary" style="padding: 14px 36px; font-size: 1rem;">Confirm Reservation</button>
+                <div style="font-size: 0.8rem; color: var(--color-muted); margin-top: 10px;">
+                  Instant confirmation &bull; Concurrency capacity safeguarded &bull; No cancellation fees
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 6: Visit & Location -->
+      <section id="visit" style="padding: 80px 0; background-color: var(--color-panel); border-top: 1px solid var(--color-line);">
+        <div class="container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
+          <div>
+            <span class="badge badge-amber" style="margin-bottom: 12px;">Visit Aura</span>
+            <h2 style="font-size: 2.4rem; margin-bottom: 16px;">We Look Forward to Welcoming You</h2>
+            <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; font-size: 0.95rem;">
+              <div>
+                <strong>Physical Address:</strong><br>
+                42 Bloom Roastery Way, 12th Main, Indiranagar, Bengaluru, KA 560038
+              </div>
+              <div>
+                <strong>Operating Hours:</strong><br>
+                Monday – Sunday: 8:00 AM – 10:00 PM (Kitchen closes at 9:30 PM)
+                <div style="margin-top: 6px;">
+                  <span class="badge badge-sage">● Open Now &bull; Brewing Fresh</span>
+                </div>
+              </div>
+              <div>
+                <strong>Telephone &amp; Contact:</strong><br>
+                +91 98765 43210 &bull; hello@auracafe.com
+              </div>
+            </div>
+            <a href="https://maps.google.com" target="_blank" rel="noopener" class="btn btn-secondary">Get Driving Directions &rarr;</a>
+          </div>
+
+          <div style="background: var(--color-paper); border: 1px solid var(--color-line); border-radius: var(--radius-lg); padding: 30px; text-align: center;">
+            <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--color-amber-light); color: var(--color-sienna); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 16px;">📍</div>
+            <h3 style="margin-bottom: 8px;">Dine-In QR Table Ordering</h3>
+            <p style="font-size: 0.88rem; margin-bottom: 20px;">
+              Visiting us in person? Simply scan the discrete brass QR marker fixed to your table to place your order with live kitchen updates.
+            </p>
+            <span class="badge badge-sage">Zero Queue Experience</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background-color: var(--color-espresso); color: #d6cdc3; padding: 60px 0 30px; font-size: 0.9rem;">
+      <div class="container" style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; margin-bottom: 40px;">
+        <div>
+          <div style="font-family: var(--font-serif); font-size: 1.4rem; color: white; font-weight: bold; margin-bottom: 12px;">AURA ARTISANAL CAFE</div>
+          <p style="color: #a89f94; max-width: 380px; line-height: 1.7;">
+            A sensory celebration of specialty coffee, tactile architecture, and thoughtful dining. All rights reserved.
+          </p>
+        </div>
+        <div>
+          <h4 style="color: white; font-size: 1rem; margin-bottom: 14px;">Explore</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
+            <li><a href="#menu" style="color: #a89f94;">Artisan Menu</a></li>
+            <li><a href="#reserve" style="color: #a89f94;">Table Reservations</a></li>
+            <li><a href="#atmosphere" style="color: #a89f94;">3D Virtual Tour</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="color: white; font-size: 1rem; margin-bottom: 14px;">Operations</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
+            <li><a href="#admin" onclick="window.auraApp.toggleAdminView()" style="color: var(--color-amber);">Staff Admin Portal</a></li>
+            <li><span style="color: #a89f94;">Razorpay Sandbox Verified</span></li>
+            <li><span style="color: #a89f94;">FSSAI Lic. #11223344556677</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="container" style="border-top: 1px solid #332b26; padding-top: 20px; text-align: center; font-size: 0.8rem; color: #7d7268;">
+        &copy; 2026 Aura Artisanal Cafe & Roastery &bull; Built with Next.js, Three.js WebGL &amp; Production E-Commerce Engine.
+      </div>
+    </footer>
+  </div>
+
+  <!-- ==============================================================================
+       MODALS & SLIDE-OVERS
+       ============================================================================== -->
+
+  <!-- Slide-Over Shopping Cart Drawer -->
+  <div class="drawer-backdrop" id="cart-drawer-backdrop" onclick="window.auraApp.closeCartDrawer()"></div>
+  <aside class="cart-drawer" id="cart-drawer" aria-label="Shopping Bag">
+    <div class="drawer-header">
+      <h3>Your Order Bag</h3>
+      <button class="drawer-close" onclick="window.auraApp.closeCartDrawer()" aria-label="Close Shopping Bag">&times;</button>
+    </div>
+    <div class="cart-body" id="cart-drawer-body"></div>
+    <div class="cart-footer">
+      <div class="cart-summary-line">
+        <span>Subtotal</span>
+        <span id="cart-subtotal">₹0.00</span>
+      </div>
+      <div class="cart-summary-line">
+        <span>GST (5%)</span>
+        <span id="cart-tax">₹0.00</span>
+      </div>
+      <div class="cart-total-line">
+        <span>Total Payable</span>
+        <span id="cart-total">₹0.00</span>
+      </div>
+      <button class="btn btn-primary" style="width: 100%; margin-top: 16px;" onclick="window.auraApp.openCheckout()">Proceed to Checkout</button>
+    </div>
+  </aside>
+
+  <!-- Product Customization Modal -->
+  <div class="modal-overlay" id="product-modal">
+    <div class="modal-content">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+        <h3 id="modal-prod-title" style="font-size: 1.4rem;">Customization</h3>
+        <button class="drawer-close" onclick="window.auraApp.closeModal('product-modal')" aria-label="Close modal">&times;</button>
+      </div>
+      <p id="modal-prod-desc" style="font-size: 0.88rem; color: var(--color-muted); margin-bottom: 20px;"></p>
+      
+      <div id="modal-options-container"></div>
+
+      <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--color-line);">
+        <button id="modal-add-btn" class="btn btn-primary" style="width: 100%;" onclick="window.auraApp.addModalItemToCart()">
+          Add to Order
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkout Modal -->
+  <div class="modal-overlay" id="checkout-modal">
+    <div class="modal-content">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3>Complete Your Order</h3>
+        <button class="drawer-close" onclick="window.auraApp.closeModal('checkout-modal')" aria-label="Close">&times;</button>
+      </div>
+
+      <div id="checkout-items-summary"></div>
+
+      <form id="checkout-form">
+        <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px;">
+          <div class="form-group">
+            <label class="form-label" for="cust-name">Full Name *</label>
+            <input type="text" id="cust-name" class="form-input" placeholder="e.g. Rohan Mehra" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cust-phone">Phone Number *</label>
+            <input type="tel" id="cust-phone" class="form-input" placeholder="+91 98200 11223" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cust-email">Email (For e-receipt & tracking) *</label>
+            <input type="email" id="cust-email" class="form-input" placeholder="rohan.m@example.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Fulfilment Method *</label>
+            <div style="display: flex; gap: 12px; margin-top: 4px;">
+              <label style="display: flex; align-items: center; gap: 6px; font-size: 0.9rem; cursor: pointer;">
+                <input type="radio" name="fulfilment" value="pickup" checked> Counter Pickup
+              </label>
+              <label style="display: flex; align-items: center; gap: 6px; font-size: 0.9rem; cursor: pointer;">
+                <input type="radio" name="fulfilment" value="dine_in"> Dine-In (At Table)
+              </label>
+              <label style="display: flex; align-items: center; gap: 6px; font-size: 0.9rem; cursor: pointer;">
+                <input type="radio" name="fulfilment" value="delivery"> Express Delivery
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cust-table">Table Number (If Dine-In)</label>
+            <input type="text" id="cust-table" class="form-input" placeholder="e.g. Table 04">
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px;">
+          Proceed to Razorpay Sandbox Payment &rarr;
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Razorpay Sandbox Modal Simulation -->
+  <div class="modal-overlay" id="razorpay-sandbox-modal">
+    <div class="modal-content" style="max-width: 440px; border-top: 6px solid #117aca;">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <div style="font-size: 0.8rem; font-weight: bold; color: #117aca; letter-spacing: 0.1em; text-transform: uppercase;">Razorpay Gateway Sandbox</div>
+        <h3 style="margin-top: 6px;">Aura Artisanal Cafe</h3>
+        <div style="font-size: 1.8rem; font-weight: bold; color: var(--color-espresso); margin: 10px 0;" id="rzp-amount">₹0.00</div>
+        <div style="font-size: 0.85rem; color: var(--color-muted);">Order: <span id="rzp-order-id">AUR-0000</span> &bull; <span id="rzp-email">user@test.com</span></div>
+      </div>
+
+      <div style="background: #f0f7ff; border: 1px solid #c7e0f8; border-radius: var(--radius-sm); padding: 14px; font-size: 0.85rem; margin-bottom: 20px;">
+        <strong>Simulated Payment Environment:</strong> Select one of the verification scenarios below to test cryptographic webhook signature verification and live status transition.
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <button class="btn btn-primary" style="background-color: #2d6a4f; border-color: #2d6a4f;" onclick="window.auraApp.completeSimulatedPayment(true)">
+          Simulate Successful Payment (200 OK)
+        </button>
+        <button class="btn btn-secondary" onclick="window.auraApp.completeSimulatedPayment(false)">
+          Simulate Payment Failure / Decline
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Order Tracking Modal -->
+  <div class="modal-overlay" id="tracking-modal">
+    <div class="modal-content" style="max-width: 460px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3>Order Status Tracker</h3>
+        <button class="drawer-close" onclick="window.auraApp.closeModal('tracking-modal')" aria-label="Close">&times;</button>
+      </div>
+
+      <div style="background: var(--color-paper); padding: 16px; border-radius: var(--radius-sm); margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div style="font-size: 0.75rem; color: var(--color-muted);">TICKET NUMBER</div>
+          <strong id="track-order-num" style="font-size: 1.2rem; color: var(--color-terracotta);">AUR-0000</strong>
+          <div id="track-cust-name" style="font-size: 0.85rem; color: var(--color-muted);">Guest</div>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-size: 0.75rem; color: var(--color-muted);">TOTAL PAID</div>
+          <strong id="track-total" style="font-size: 1.1rem; color: var(--color-espresso);">₹0.00</strong>
+        </div>
+      </div>
+
+      <div id="track-stages-list"></div>
+
+      <div style="text-align: center; margin-top: 20px;">
+        <button class="btn btn-secondary btn-sm" onclick="window.auraApp.closeModal('tracking-modal')">Close Tracker</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==============================================================================
+       PROTECTED BUSINESS ADMIN DASHBOARD
+       ============================================================================== -->
+  <div id="admin-portal" class="admin-view">
+    <div class="container">
+      <div class="admin-header-bar">
+        <div>
+          <div style="font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-amber);">Operational Workspace</div>
+          <h2 style="color: white; font-size: 1.6rem;">Aura Cafe Operations OS</h2>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <label style="font-size: 0.82rem; color: #d6cdc3;">Role:</label>
+          <select style="padding: 6px 10px; border-radius: 4px; font-size: 0.85rem; background: #2f2520; color: white; border: 1px solid #4a3b33;" onchange="window.auraApp.setStaffRole(this.value)">
+            <option value="admin" selected>Owner (Admin)</option>
+            <option value="manager">Cafe Manager</option>
+            <option value="staff">Lead Barista (Staff)</option>
+          </select>
+          <button class="btn btn-secondary btn-sm" style="color: white; border-color: #55443a;" onclick="window.auraApp.toggleAdminView()">
+            &larr; Back to Customer Storefront
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Summary -->
+      <div class="admin-metrics-grid">
+        <div class="metric-card">
+          <span>Today's Total Revenue</span>
+          <h3 id="metric-revenue">₹0.00</h3>
+        </div>
+        <div class="metric-card">
+          <span>Active Kitchen Tickets</span>
+          <h3 id="metric-orders-active">0</h3>
+        </div>
+        <div class="metric-card">
+          <span>Confirmed Table Bookings</span>
+          <h3 id="metric-res-count">0</h3>
+        </div>
+        <div class="metric-card">
+          <span>Current Session Role</span>
+          <h3 id="metric-current-role">ADMIN</h3>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="admin-nav-tabs">
+        <button class="admin-tab active" data-tab="orders" onclick="window.auraApp.setAdminTab('orders')">Live Order Queue (Kanban)</button>
+        <button class="admin-tab" data-tab="menu" onclick="window.auraApp.setAdminTab('menu')">Menu &amp; Stock Availability</button>
+        <button class="admin-tab" data-tab="reservations" onclick="window.auraApp.setAdminTab('reservations')">Table Reservations Calendar</button>
+        <button class="admin-tab" data-tab="audit" onclick="window.auraApp.setAdminTab('audit')">Immutable Audit Trail Log</button>
+      </div>
+
+      <!-- Tab Content Area -->
+      <div id="admin-tab-content"></div>
+    </div>
+  </div>
+
+  <!-- Modular Scripts -->
+  <script src="three-scene.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
